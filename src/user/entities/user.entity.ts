@@ -8,6 +8,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { Exclude } from "class-transformer";
 import { Role } from '../../role/entities/role.entity';
 import { InformationComment } from '../../information/entities/information-comment.entity';
 
@@ -19,7 +20,8 @@ export class User {
   @Column({ unique: true, length: 32, comment: '用户名' })
   name: string;
 
-  @Column({ length: 64, comment: '密码' })
+  @Column({ length: 128, comment: '密码' })
+  @Exclude()
   password: string;
 
   @Column({ length: 1, default: 0, comment: '性别' })

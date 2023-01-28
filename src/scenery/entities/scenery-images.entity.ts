@@ -1,12 +1,13 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import { Scenery } from "./scenery.entity";
+  UpdateDateColumn,
+} from 'typeorm';
+import { Scenery } from './scenery.entity';
 
 @Entity()
 export class SceneryImages {
@@ -22,7 +23,9 @@ export class SceneryImages {
   @Column({ comment: '字节数' })
   size: number;
 
-  @ManyToOne(() => Scenery, (scenery) => scenery.sceneryImages)
+  @ManyToOne(() => Scenery, (scenery) => scenery.sceneryImages, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   scenery: Scenery;
 

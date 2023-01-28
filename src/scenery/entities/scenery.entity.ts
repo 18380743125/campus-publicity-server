@@ -4,9 +4,9 @@ import {
   Entity,
   OneToMany,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
-import { SceneryImages } from "./scenery-images.entity";
+  UpdateDateColumn,
+} from 'typeorm';
+import { SceneryImages } from './scenery-images.entity';
 
 @Entity()
 export class Scenery {
@@ -16,11 +16,12 @@ export class Scenery {
   @Column({ unique: true, length: 40, comment: '校园风光标题' })
   title: string;
 
-  @OneToMany(
-    () => SceneryImages,
-    (sceneryImages) => sceneryImages.scenery,
-    { cascade: true },
-  )
+  @Column({ comment: '热度', default: 0 })
+  hots: number;
+
+  @OneToMany(() => SceneryImages, (sceneryImages) => sceneryImages.scenery, {
+    cascade: true,
+  })
   sceneryImages: SceneryImages[];
 
   @CreateDateColumn({ comment: '创建时间' })

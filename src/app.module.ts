@@ -9,6 +9,7 @@ import { RoleModule } from './role/role.module';
 import { SceneryModule } from './scenery/scenery.module';
 import { NotificationModule } from './notification/notification.module';
 import { InformationModule } from './information/information.module';
+import { AuthModule } from './auth/auth.module';
 
 const envVariablePath = `.env.${process.env.NODE_ENV || 'development'}`;
 
@@ -27,6 +28,7 @@ const envVariablePath = `.env.${process.env.NODE_ENV || 'development'}`;
     SceneryModule,
     NotificationModule,
     InformationModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
