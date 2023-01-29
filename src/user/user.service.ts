@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { In, Repository } from 'typeorm';
@@ -29,8 +28,18 @@ export class UserService {
     return this.userRepository.save(userTemp);
   }
 
-  findAll() {
-    return `This action returns all users`;
+  async findAll(page: number = 1, limit: number = 10, name = null) {
+    const qb = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoin('user.roles', 'roles')
+      .andWhere('roles.id = :roleId', { roleId: 2 });
+    if (!!name) qb.andWhere('user.name LIKE :name', { name: `%${name}%` });
+    const totalCount = await qb.getCount();
+    const users = await qb
+      .take(limit)
+      .skip((page - 1) * limit)
+      .getMany();
+    return { totalCount, users };
   }
 
   async findOne(name: string) {
@@ -40,11 +49,12 @@ export class UserService {
     });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async update(id: number, dto: any) {
+    const user = await this.userRepository.findOne({ where: { id } });
+    for (let key of Object.keys(dto)) {
+      if (user[key] !== undefined) user[key] = dto[key];
+    }
+    user.updateAt = new Date();
+    return this.userRepository.update(id, user);
   }
 }

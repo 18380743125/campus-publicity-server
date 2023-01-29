@@ -10,6 +10,7 @@ import {
   ClassSerializerInterceptor,
   UseGuards,
   Req,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -36,8 +37,13 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  async findAll(@Query() dto) {
+    const { page, limit, name } = dto;
+    const result = await this.usersService.findAll(page, limit, name);
+    return {
+      code: 200,
+      data: result,
+    };
   }
 
   @Get(':name')
@@ -47,12 +53,11 @@ export class UserController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.usersService.remove(+id);
+  async update(@Param('id') id: string, @Body() dto: any) {
+    const result = await this.usersService.update(+id, dto);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 }
