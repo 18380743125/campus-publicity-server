@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSceneryDto } from './dto/create-scenery.dto';
-import { UpdateSceneryDto } from './dto/update-scenery.dto';
 import { Scenery } from './entities/scenery.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SceneryImages } from './entities/scenery-images.entity';
+import { delFile } from '../utils/file.util';
+import * as path from 'path';
 
 @Injectable()
 export class SceneryService {
@@ -18,14 +18,16 @@ export class SceneryService {
     return this.sceneryRepository.save(scenery);
   }
 
-  findAll(page = 1, limit = 10) {
-    return this.sceneryRepository.find({
+  async findAll(page = 1, limit = 10) {
+    const result = await this.sceneryRepository.find({
       take: limit,
       skip: (page - 1) * limit,
       relations: {
         sceneryImages: true,
       },
     });
+    const totalCount = await this.sceneryRepository.count();
+    return { result, totalCount };
   }
 
   async findOne(id: number) {
@@ -41,6 +43,14 @@ export class SceneryService {
   }
 
   async remove(id: number) {
-    return this.sceneryRepository.delete(id);
+    const scenery = await this.findOne(id);
+    // console.log(scenery);
+    // 删除本地图标
+    if (scenery) {
+      for (const img of scenery.sceneryImages) {
+        delFile(path.join(__dirname, '../images/scenery', img.filename));
+      }
+    }
+    return this.sceneryRepository.delete(id)
   }
 }

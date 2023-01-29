@@ -1,20 +1,28 @@
 import {
-  ArgumentsHost,
-  Catch,
   ExceptionFilter,
-  HttpException,
+  HttpAdapterHost,
 } from '@nestjs/common';
+import { ArgumentsHost, Catch } from '@nestjs/common';
 
-@Catch(HttpException)
-export class HttpExceptionFilter implements ExceptionFilter {
-  async catch(exception: HttpException, host: ArgumentsHost) {
+@Catch()
+export class AllExceptionFilter implements ExceptionFilter {
+  constructor(
+    private readonly httpAdapterHost: HttpAdapterHost,
+  ) {}
+  catch(exception: unknown, host: ArgumentsHost) {
+    const { httpAdapter } = this.httpAdapterHost;
     const ctx = host.switchToHttp();
-    // 响应 请求对象
+    const request = ctx.getRequest();
     const response = ctx.getResponse();
-    response.status(200).json({
-      code: 500,
-      timestamp: new Date().toISOString(),
-      message: exception.message || exception.name,
-    });
+
+    const msg: unknown = exception['response'] || 'Internal Server Error';
+
+    const responseBody = {
+      code: 200,
+      message: '服务器异常~',
+      error: msg,
+    };
+
+    httpAdapter.reply(response, responseBody, 200);
   }
 }

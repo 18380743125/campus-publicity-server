@@ -1,8 +1,8 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, HttpAdapterHost } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import * as cookieParser from 'cookie-parser';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { AllExceptionFilter } from './filters/http-exception.filter';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import * as path from 'path';
 
@@ -14,7 +14,9 @@ async function bootstrap() {
   app.setGlobalPrefix('/api/v1');
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
-  app.useGlobalFilters(new HttpExceptionFilter());
+  const httpAdapter = app.get(HttpAdapterHost);
+
+  app.useGlobalFilters(new AllExceptionFilter(httpAdapter));
 
   // cookies
   app.use(cookieParser());
