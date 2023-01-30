@@ -1,34 +1,63 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { NotificationService } from './notification.service';
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 
 @Controller('notification')
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Post()
-  create(@Body() createNotificationDto: CreateNotificationDto) {
-    return this.notificationService.create(createNotificationDto);
+  async create(@Body() dto: any) {
+    dto.remarks = '重庆移通学院教务处';
+    const result = await this.notificationService.create(dto);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.notificationService.findAll();
+  async findAll(@Query() dto) {
+    const { page, limit } = dto;
+    const result = await this.notificationService.findAll(page, limit);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificationService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const result = await this.notificationService.findOne(+id);
+    return {
+      code: 0,
+      result,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotificationDto: UpdateNotificationDto) {
-    return this.notificationService.update(+id, updateNotificationDto);
+  async update(@Param('id') id: string, @Body() dto: any) {
+    const result = await this.notificationService.update(+id, dto);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.notificationService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const result = await this.notificationService.remove(+id);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 }

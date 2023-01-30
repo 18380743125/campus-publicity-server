@@ -1,26 +1,57 @@
 import { Injectable } from '@nestjs/common';
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
+import { Notification } from './entities/notification.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class NotificationService {
-  create(createNotificationDto: CreateNotificationDto) {
-    return 'This action adds a new notification';
+  constructor(
+    @InjectRepository(Notification)
+    private notificationRepository: Repository<Notification>,
+  ) {}
+  create(dto: any) {
+    const notification = new Notification();
+    notification.title = dto.title;
+    notification.content = dto.content;
+    notification.remarks = dto.remarks;
+    return this.notificationRepository.save(notification);
   }
 
-  findAll() {
-    return `This action returns all notification`;
+  async findAll(page = 1, limit = 10) {
+    const totalCount = await this.notificationRepository.count();
+    const data = await this.notificationRepository.find({
+      take: limit,
+      skip: (page - 1) * limit,
+    });
+    return {
+      data,
+      totalCount,
+    };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} notification`;
+  async findOne(id: number) {
+    const notification = await this.notificationRepository.findOne({
+      where: { id },
+    });
+    if (notification) {
+      notification.count++;
+      this.notificationRepository.update(id, notification);
+    }
+    return notification;
   }
 
-  update(id: number, updateNotificationDto: UpdateNotificationDto) {
-    return `This action updates a #${id} notification`;
+  async update(id: number, dto: any) {
+    const notification = await this.notificationRepository.findOne({
+      where: { id },
+    });
+    for (let key of Object.keys(dto)) {
+      if (notification[key] !== undefined) notification[key] = dto[key];
+    }
+    notification.updateAt = new Date();
+    return this.notificationRepository.update(id, notification);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} notification`;
+  async remove(id: number) {
+    return this.notificationRepository.delete(id);
   }
 }

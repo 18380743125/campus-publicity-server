@@ -11,14 +11,17 @@ export class Notification {
   @PrimaryGeneratedColumn({ comment: '公告ID' })
   id: number;
 
-  @Column({ unique: true, length: 40, comment: '公告标题' })
+  @Column({ length: 100, comment: '公告标题' })
   title: string;
 
-  @Column({ comment: '公共内容' })
+  @Column({ type: 'mediumtext', comment: '公告内容' })
   content: string;
 
+  @Column({ comment: '点击量', default: 0 })
+  count: number;
+
   @Column({ length: 30, comment: '公共备注' })
-  remarks: string
+  remarks: string;
 
   @CreateDateColumn({ comment: '创建时间' })
   createAt: Date;

@@ -44,7 +44,6 @@ export class SceneryService {
 
   async remove(id: number) {
     const scenery = await this.findOne(id);
-    // console.log(scenery);
     // 删除本地图标
     if (scenery) {
       for (const img of scenery.sceneryImages) {
