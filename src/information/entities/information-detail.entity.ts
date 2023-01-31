@@ -1,11 +1,12 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
+  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+} from 'typeorm';
 import { Information } from './information.entity';
 
 @Entity()
@@ -16,10 +17,10 @@ export class InformationDetail {
   @Column({ type: 'mediumtext', comment: '资讯内容' })
   content: string;
 
-  @Column({ comment: '浏览次数' })
+  @Column({ default: 0, comment: '浏览次数' })
   view_count: number;
 
-  @OneToOne(() => Information, { onDelete: 'CASCADE' })
+  @OneToOne(() => Information, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
   @JoinColumn()
   information: Information;
 

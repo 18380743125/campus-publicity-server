@@ -1,15 +1,16 @@
 import {
   Column,
   CreateDateColumn,
-  Entity, JoinColumn,
+  Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from "typeorm";
+  UpdateDateColumn,
+} from 'typeorm';
 import { Information } from './information.entity';
 
 @Entity()
-export class InformationImages {
+export class InformationImage {
   @PrimaryGeneratedColumn({ comment: '资讯图片ID' })
   id: number;
 
@@ -21,10 +22,6 @@ export class InformationImages {
 
   @Column({ comment: '字节数' })
   size: number;
-
-  @ManyToOne(() => Information, (information) => information.informationImages)
-  @JoinColumn()
-  information: Information;
 
   @CreateDateColumn({ comment: '创建时间' })
   createAt: Date;

@@ -8,14 +8,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { InformationDetail } from './information-detail.entity';
-import { InformationImages } from './information-images.entity';
+import { InformationImage } from './information-image.entity';
 
 @Entity()
 export class Information {
   @PrimaryGeneratedColumn({ comment: '资讯ID' })
   id: number;
 
-  @Column({ unique: true, length: 40, comment: '资讯标题' })
+  @Column({ length: 100, comment: '资讯标题' })
   title: string;
 
   @OneToOne(
@@ -24,13 +24,6 @@ export class Information {
     { cascade: true },
   )
   informationDetail: InformationDetail;
-
-  @OneToMany(
-    () => InformationImages,
-    (informationImages) => informationImages.information,
-    { cascade: true },
-  )
-  informationImages: InformationImages[];
 
   @CreateDateColumn({ comment: '创建时间' })
   createAt: Date;

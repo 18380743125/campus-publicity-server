@@ -1,34 +1,97 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+  Query,
+} from '@nestjs/common';
 import { InformationService } from './information.service';
-import { CreateInformationDto } from './dto/create-information.dto';
-import { UpdateInformationDto } from './dto/update-information.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { InformationImage } from './entities/information-image.entity';
+import { Information } from './entities/information.entity';
+import { InformationDetail } from './entities/information-detail.entity';
 
 @Controller('information')
 export class InformationController {
   constructor(private readonly informationService: InformationService) {}
 
+  // 上传信息图片
+  @UseInterceptors(FileInterceptor('file'))
+  @Post('/upload')
+  async upload(@UploadedFile() file: Express.Multer.File) {
+    const informationImage = new InformationImage();
+    informationImage.filename = file.filename;
+    informationImage.mimetype = file.mimetype;
+    informationImage.size = file.size;
+    let errno = 0;
+    let url = `http://localhost:8000/information/${file.filename}`;
+    try {
+      await this.informationService.upload(informationImage);
+    } catch (err) {
+      console.log(err);
+      url = '';
+      errno = 1;
+    }
+    return {
+      errno,
+      data: { url },
+    };
+  }
+
   @Post()
-  create(@Body() createInformationDto: CreateInformationDto) {
-    return this.informationService.create(createInformationDto);
+  async create(@Body() dto: any) {
+    const { title, content } = dto;
+    const information = new Information();
+    information.title = title;
+    const detail = new InformationDetail();
+    detail.content = content;
+    information.informationDetail = detail;
+    const result = await this.informationService.create(information);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Get()
-  findAll() {
-    return this.informationService.findAll();
+  async findAll(@Query() dto: any) {
+    const { page, size } = dto;
+    const result = await this.informationService.findAll(page, size);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.informationService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+    const result = await this.informationService.findOne(+id);
+    return {
+      code: 0,
+      data: result,
+    };
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInformationDto: UpdateInformationDto) {
-    return this.informationService.update(+id, updateInformationDto);
+  async update(@Param('id') id: string, @Body() dto: any) {
+    const result = await this.informationService.update(+id, dto);
+    return {
+      code: 0,
+      result
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.informationService.remove(+id);
+  async remove(@Param('id') id: string) {
+    const result = await this.informationService.remove(+id);
+    return {
+      code: 0,
+      result,
+    };
   }
 }
