@@ -3,8 +3,9 @@ export function processComment(comments: Array<any>) {
     // 处理结构
     for (const item of comments) {
       item.name = item.user.name;
+      item.roles = item.user.roles;
       delete item.user;
-      item.informationId = item.information.id
+      item.informationId = item.information.id;
       delete item.information;
     }
     const res: Array<any> = [];
@@ -25,7 +26,7 @@ export function processComment(comments: Array<any>) {
       if (parentId !== null) {
         const parentC = map.get(parentId);
         parentC.children || (parentC.children = []);
-        parentC.children.push(c)
+        parentC.children.push(c);
       }
     }
 

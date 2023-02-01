@@ -20,6 +20,9 @@ export class NotificationService {
   async findAll(page = 1, limit = 10) {
     const totalCount = await this.notificationRepository.count();
     const data = await this.notificationRepository.find({
+      order: {
+        createAt: 'DESC'
+      },
       take: limit,
       skip: (page - 1) * limit,
     });

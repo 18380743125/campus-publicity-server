@@ -16,7 +16,6 @@ export class NotificationController {
 
   @Post()
   async create(@Body() dto: any) {
-    dto.remarks = '重庆移通学院教务处';
     const result = await this.notificationService.create(dto);
     return {
       code: 0,

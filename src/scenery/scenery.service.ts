@@ -20,6 +20,9 @@ export class SceneryService {
 
   async findAll(page = 1, limit = 10) {
     const result = await this.sceneryRepository.find({
+      order: {
+        createAt: 'DESC'
+      },
       take: limit,
       skip: (page - 1) * limit,
       relations: {

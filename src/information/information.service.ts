@@ -35,17 +35,18 @@ export class InformationService {
   }
 
   // 查询评论(多条件查询 且关系)
-  async findComments(
-    informationId: number,
-    page = 1,
-    size = 100,
-  ) {
+  async findComments(informationId: number, page = 1, size = 100) {
     const qb = this.commentRepository.createQueryBuilder('comment');
-    qb.leftJoinAndSelect('comment.user', 'user');
-    qb.innerJoinAndSelect('comment.information', 'information');
-    qb.andWhere('information.id = :informationId', {
-      informationId,
-    });
+    qb.leftJoinAndSelect('comment.user', 'user').leftJoinAndSelect(
+      'user.roles',
+      'roles',
+    );
+    qb.innerJoinAndSelect('comment.information', 'information').andWhere(
+      'information.id = :informationId',
+      {
+        informationId,
+      },
+    );
 
     const count = await qb.getCount();
     const comments = await qb
@@ -81,6 +82,9 @@ export class InformationService {
   async findAll(page = 1, size = 5) {
     const count = await this.informationRepository.count();
     const result = await this.informationRepository.find({
+      order: {
+        createAt: 'DESC',
+      },
       take: size,
       skip: (page - 1) * size,
       relations: {

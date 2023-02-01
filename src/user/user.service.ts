@@ -36,6 +36,7 @@ export class UserService {
     if (!!name) qb.andWhere('user.name LIKE :name', { name: `%${name}%` });
     const totalCount = await qb.getCount();
     const users = await qb
+      .orderBy('user.createAt', 'DESC')
       .take(limit)
       .skip((page - 1) * limit)
       .getMany();
