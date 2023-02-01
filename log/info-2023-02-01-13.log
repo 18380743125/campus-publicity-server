@@ -1,0 +1,32 @@
+info: UserController {/api/v1/user}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.377Z"}
+info: Mapped {/api/v1/user, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.382Z"}
+info: Mapped {/api/v1/user, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.383Z"}
+info: Mapped {/api/v1/user/:name, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.385Z"}
+info: Mapped {/api/v1/user/:id, PATCH} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.386Z"}
+info: RoleController {/api/v1/role}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.387Z"}
+info: Mapped {/api/v1/role/:id, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.388Z"}
+info: SceneryController {/api/v1/scenery}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.389Z"}
+info: Mapped {/api/v1/scenery, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.390Z"}
+info: Mapped {/api/v1/scenery, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.391Z"}
+info: Mapped {/api/v1/scenery/:id, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.392Z"}
+info: Mapped {/api/v1/scenery/:id, DELETE} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.393Z"}
+info: NotificationController {/api/v1/notification}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.394Z"}
+info: Mapped {/api/v1/notification, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.395Z"}
+info: Mapped {/api/v1/notification, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.396Z"}
+info: Mapped {/api/v1/notification/:id, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.397Z"}
+info: Mapped {/api/v1/notification/:id, PATCH} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.398Z"}
+info: Mapped {/api/v1/notification/:id, DELETE} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.398Z"}
+info: InformationController {/api/v1/information}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.399Z"}
+info: Mapped {/api/v1/information/comment, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.400Z"}
+info: Mapped {/api/v1/information/comment/:id, DELETE} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.401Z"}
+info: Mapped {/api/v1/information/comment/:id, PATCH} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.402Z"}
+info: Mapped {/api/v1/information/comment, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.402Z"}
+info: Mapped {/api/v1/information/upload, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.403Z"}
+info: Mapped {/api/v1/information, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.404Z"}
+info: Mapped {/api/v1/information, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.405Z"}
+info: Mapped {/api/v1/information/:id, GET} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.405Z"}
+info: Mapped {/api/v1/information/:id, PATCH} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.406Z"}
+info: Mapped {/api/v1/information/:id, DELETE} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.407Z"}
+info: AuthController {/api/v1/auth}: {"context":"RoutesResolver","timestamp":"2023-02-01T05:08:44.408Z"}
+info: Mapped {/api/v1/auth/login, POST} route {"context":"RouterExplorer","timestamp":"2023-02-01T05:08:44.409Z"}
+info: Nest application successfully started {"context":"NestApplication","timestamp":"2023-02-01T05:08:44.413Z"}

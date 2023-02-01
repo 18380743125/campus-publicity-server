@@ -1,13 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 
 @Injectable()
 export class AdminGuard implements CanActivate {
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext): boolean {
     const req = context.switchToHttp().getRequest();
     const roles = req.user.roles;
-    return !!(roles && roles.filter((r) => r.id === 2).length > 0);
+    const isAdmin = roles.filter((item) => item.id === 1).length;
+    return !!isAdmin;
   }
 }

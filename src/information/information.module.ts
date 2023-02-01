@@ -10,10 +10,14 @@ import { Information } from './entities/information.entity';
 import { InformationImage } from './entities/information-image.entity';
 import { InformationDetail } from './entities/information-detail.entity';
 import { InformationComment } from './entities/information-comment.entity';
+import { User } from '../user/entities/user.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
+    UserModule,
     TypeOrmModule.forFeature([
+      User,
       Information,
       InformationImage,
       InformationDetail,

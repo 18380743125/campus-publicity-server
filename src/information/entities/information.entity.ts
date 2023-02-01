@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { InformationDetail } from './information-detail.entity';
-import { InformationImage } from './information-image.entity';
+import { InformationComment } from './information-comment.entity';
 
 @Entity()
 export class Information {
@@ -24,6 +24,13 @@ export class Information {
     { cascade: true },
   )
   informationDetail: InformationDetail;
+
+  @OneToMany(
+    () => InformationComment,
+    (informationComment) => informationComment.information,
+    { cascade: true },
+  )
+  comments: InformationComment[];
 
   @CreateDateColumn({ comment: '创建时间' })
   createAt: Date;
