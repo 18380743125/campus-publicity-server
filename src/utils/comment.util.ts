@@ -1,3 +1,4 @@
+// 处理评论数据格式
 export function processComment(comments: Array<any>) {
   try {
     // 处理结构
@@ -21,6 +22,7 @@ export function processComment(comments: Array<any>) {
       if (c.parent_id !== null) {
         const parentC = map.get(c.parent_id);
         c.parentName = parentC.name;
+        c.parentRoles = parentC.roles;
       }
       const parentId = c.parent_id;
       if (parentId !== null) {
