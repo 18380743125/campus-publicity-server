@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InformationImage } from './entities/information-image.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Information } from './entities/information.entity';
 import { InformationDetail } from './entities/information-detail.entity';
 import { InformationComment } from './entities/information-comment.entity';
@@ -79,9 +79,11 @@ export class InformationService {
   }
 
   // 查询资讯信息
-  async findAll(page = 1, size = 5) {
-    const count = await this.informationRepository.count();
+  async findAll(page = 1, size = 5, title = '') {
     const result = await this.informationRepository.find({
+      where: {
+        title: Like(`%${title}%`),
+      },
       order: {
         createAt: 'DESC',
       },
@@ -89,6 +91,11 @@ export class InformationService {
       skip: (page - 1) * size,
       relations: {
         informationDetail: true,
+      },
+    });
+    const count = await this.informationRepository.count({
+      where: {
+        title: Like(`%${title}%`),
       },
     });
     return {

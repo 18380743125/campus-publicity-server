@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Notification } from './entities/notification.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
@@ -17,18 +17,25 @@ export class NotificationService {
     return this.notificationRepository.save(notification);
   }
 
-  async findAll(page = 1, limit = 10) {
-    const totalCount = await this.notificationRepository.count();
+  async findAll(page = 1, limit = 10, title = '') {
+    const totalCount = await this.notificationRepository.count({
+      where: {
+        title: Like(`%${title}%`),
+      },
+    });
     const data = await this.notificationRepository.find({
+      where: {
+        title: Like(`%${title}%`),
+      },
       order: {
-        createAt: 'DESC'
+        createAt: 'DESC',
       },
       take: limit,
       skip: (page - 1) * limit,
     });
     return {
-      data,
       totalCount,
+      data,
     };
   }
 

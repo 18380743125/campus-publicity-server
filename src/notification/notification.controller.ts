@@ -25,8 +25,8 @@ export class NotificationController {
 
   @Get()
   async findAll(@Query() dto) {
-    const { page, limit } = dto;
-    const result = await this.notificationService.findAll(page, limit);
+    const { title, page, limit } = dto;
+    const result = await this.notificationService.findAll(page, limit, title);
     return {
       code: 0,
       data: result,

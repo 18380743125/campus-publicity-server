@@ -90,6 +90,7 @@ export class InformationController {
     };
   }
 
+
   // 上传信息图片
   @UseInterceptors(FileInterceptor('file'))
   @Post('/upload')
@@ -132,8 +133,8 @@ export class InformationController {
   // 查询资讯信息
   @Get()
   async findAll(@Query() dto: any) {
-    const { page, size } = dto;
-    const result = await this.informationService.findAll(page, size);
+    const { title, page, size } = dto;
+    const result = await this.informationService.findAll(page, size, title);
     return {
       code: 0,
       data: result,
